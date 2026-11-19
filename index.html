@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Day in the Park</title>
+<style>
+:root{--bg:#eaf6ea;--card:#fffaf0;--ink:#22402b;--muted:#4d6654;--btn:#2e7d45;--btn-ink:#fff;--line:#b7d8bb;--sun:#ffd66b;--sky:#d3ecf7;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12261a;--card:#1c3326;--ink:#eef7ea;--muted:#b5cdb9;--btn:#8fd19e;--btn-ink:#0f2a18;--line:#3d5f47;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12261a;--card:#1c3326;--ink:#eef7ea;--muted:#b5cdb9;--btn:#8fd19e;--btn-ink:#0f2a18;--line:#3d5f47;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 "Nunito","Quicksand","Prompt","Noto Sans Thai",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:14px 16px 32px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:48px}
+.dots{display:flex;gap:6px;align-items:center;font-size:15px;color:var(--muted)}
+.dots i{width:26px;height:10px;border-radius:6px;background:var(--line)}
+.dots i.on{background:var(--btn)}
+.dots i.now{outline:2px solid var(--ink);outline-offset:2px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:28px;padding:18px;margin-top:10px}
+h1,h2{line-height:1.2;margin:.4em 0 .3em;outline:none}
+h1{font-size:2rem}h2{font-size:1.45rem}
+p{margin:.5em 0}.muted{color:var(--muted)}
+.ill{width:100%;height:auto;display:block;border-radius:20px}
+.btn,.opt,.lang{font:inherit;cursor:pointer;color:inherit}
+.btn{background:var(--btn);color:var(--btn-ink);border:0;border-radius:999px;padding:14px 28px;min-height:52px;font-weight:800;font-size:1.05rem;margin:6px 6px 0 0}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--btn)}
+.lang{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:8px 18px;min-height:44px;font-weight:700}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:12px}
+.opt{position:relative;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:10px;text-align:left;min-height:52px;transition:transform .15s,border-color .15s}
+.opt:hover{border-color:var(--btn)}
+.opt .ill{margin-bottom:8px}
+.opt b{display:block;line-height:1.3}
+.opt[aria-pressed="true"]{border-color:var(--btn);border-width:5px;padding:8px;animation:pop .25s}
+.opt[aria-pressed="true"]::after{content:"✓";position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font-weight:900}
+.opt.txt{padding:14px 16px}.opt.txt[aria-pressed="true"]{padding:12px 14px}
+.opt.txt::after{top:50%!important;transform:translateY(-50%)}
+.fb{margin-top:14px;padding:14px 16px;border-radius:20px;background:var(--sky);color:#16384a;border-left:8px solid #4aa3c9;animation:pop .3s}
+.tag{display:inline-block;background:var(--sun);color:#4a3600;border-radius:8px;padding:2px 10px;font-size:.8rem;font-weight:800}
+.voice{border:2px dashed var(--line);border-radius:20px;padding:14px;margin-top:12px}
+.voice q{display:block;font-style:italic;margin:.4em 0}
+:focus-visible{outline:4px solid #e08a00;outline-offset:3px}
+@keyframes pop{from{transform:scale(.97);opacity:.6}to{transform:none;opacity:1}}
+@keyframes drift{from{transform:translateX(-6px)}to{transform:translateX(8px)}}
+.cloud{animation:drift 6s ease-in-out infinite alternate}
+.scene{border-radius:24px;overflow:hidden;border:2px solid var(--line);margin-top:10px;background:#d9f0fa}
+.scene svg{display:block;width:100%;height:auto}
+.scene .cloud{animation:drift2 9s ease-in-out infinite alternate}
+@keyframes drift2{from{transform:translateX(-25px)}to{transform:translateX(35px)}}
+.sway,.sway2{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.6s ease-in-out infinite alternate}
+.sway2{animation-duration:2.4s;animation-delay:-1s}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.bob{animation:bob 1.6s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(-2px)}to{transform:translateY(2px)}}
+.fly{animation:fly 16s linear infinite}
+@keyframes fly{from{transform:translateX(-60px)}to{transform:translateX(280px)}}
+.flut{animation:flut 7s ease-in-out infinite alternate}
+@keyframes flut{0%{transform:translate(0,0)}50%{transform:translate(60px,-14px)}100%{transform:translate(140px,4px)}}
+.rip{animation:rip 2.5s ease-in-out infinite alternate}
+@keyframes rip{from{transform:translateX(-3px)}to{transform:translateX(3px)}}
+.scroll{animation:scr 3s linear infinite}
+@keyframes scr{to{transform:translateX(-240px)}}
+.leg{transform-box:fill-box;transform-origin:50% 0}
+.walk .leg{animation:leg .5s ease-in-out infinite alternate}
+.walk .leg.b{animation-direction:alternate-reverse}
+@keyframes leg{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+.walk .body{animation:step .25s ease-in-out infinite alternate}
+@keyframes step{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+.idle .body{animation:bob 2.2s ease-in-out infinite alternate}
+.hop{animation:hop .9s ease-in-out infinite}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.pad{animation:pad 3s ease-in-out infinite alternate}
+@keyframes pad{from{transform:translateX(-8px)}to{transform:translateX(8px)}}
+.buzz{animation:buzz 1.1s ease-in-out infinite alternate}
+@keyframes buzz{from{transform:translate(-8px,2px)}to{transform:translate(8px,-6px)}}
+.flut2{animation:flut2 2.2s ease-in-out infinite alternate}
+@keyframes flut2{from{transform:translate(-10px,2px)}to{transform:translate(12px,-8px)}}
+.scene svg{max-height:46vh;width:100%}
+.card{padding:14px}
+h2{font-size:1.2rem}
+.grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:8px}
+.opt{display:flex;align-items:center;gap:10px;padding:6px 10px;border-width:2px;border-radius:18px}
+.opt .ill{width:56px;flex:none;margin:0;border-radius:12px}
+.opt b{padding-right:30px;font-size:.98rem}
+.opt[aria-pressed="true"]{padding:4px 8px;border-width:4px}
+.opt[aria-pressed="true"]::after{width:24px;height:24px;top:50%;right:8px;transform:translateY(-50%)}
+.grid.chars{grid-template-columns:1fr 1fr}
+.grid.chars .opt{display:block;text-align:center}
+.grid.chars .opt .ill{width:100%;margin-bottom:6px}
+.grid.chars .opt b{padding:0}
+.grid.chars .opt[aria-pressed="true"]::after{top:8px;transform:none}
+.fb{padding:10px 14px;font-size:.95rem;margin-top:10px}
+.inp{font:inherit;width:100%;padding:12px 16px;border:3px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);margin:8px 0;min-height:52px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="app" id="app"></main>
+<script>
+/* ===== Illustrations (inline SVG) ===== */
+const sv=i=>`<svg class="ill" viewBox="0 0 120 80" aria-hidden="true">${i}</svg>`;
+const SKY='<rect width="120" height="80" fill="#d9f0fa"/><rect y="64" width="120" height="16" fill="#bfe3b4"/>';
+const TREE='<g class="sway"><rect x="56" y="42" width="8" height="26" rx="3" fill="#8a5a3c"/><circle cx="60" cy="32" r="22" fill="#5fb36b"/><circle cx="44" cy="44" r="13" fill="#4e9f5b"/><circle cx="76" cy="44" r="13" fill="#4e9f5b"/></g>';
+const fl=(x,y,c)=>`<g class="sway2"><rect x="${x-1}" y="${y}" width="2.5" height="${70-y}" fill="#4e9f5b"/>`+[0,72,144,216,288].map(a=>`<circle cx="${x+8*Math.cos(a*Math.PI/180)}" cy="${y+8*Math.sin(a*Math.PI/180)}" r="5" fill="${c}"/>`).join('')+`<circle cx="${x}" cy="${y}" r="4" fill="#ffd66b"/></g>`;
+const FLOW=fl(30,40,"#ff9fb8")+fl(60,32,"#ffffff")+fl(90,42,"#c9a7ff")+fl(46,52,"#ffb36b");
+const LAKE='<ellipse cx="60" cy="56" rx="54" ry="20" fill="#8fd0ee"/><path class="rip" d="M30 54q8-5 16 0M64 62q8-5 16 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M14 36q6-14 8 0M104 34q-5-12-8 2" stroke="#4e9f5b" stroke-width="3" fill="none" stroke-linecap="round"/>';
+const BIRD='<path class="bob" d="M22 26q8-9 16 0q8-9 16 0M70 16q6-7 12 0q6-7 12 0" stroke="#3b5566" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="40" cy="54" rx="9" ry="6" fill="#ff9fb8" transform="rotate(-25 40 54)"/><ellipse cx="52" cy="54" rx="9" ry="6" fill="#ffd66b" transform="rotate(25 52 54)"/><rect x="45" y="48" width="2.5" height="14" rx="1" fill="#6b4a35"/><ellipse cx="92" cy="58" rx="11" ry="8" fill="#ff8f6b"/><circle cx="102" cy="53" r="5" fill="#ff8f6b"/><path d="M106 53l6 2-6 2z" fill="#ffd66b"/>';
+const BIKE='<g stroke="#2d4a3a" stroke-width="3" fill="none" stroke-linecap="round"><circle cx="28" cy="62" r="10"/><circle cx="68" cy="62" r="10"/><path d="M28 62l14-22h18l8 22M42 40l8 22h-22M38 36h8"/></g><circle cx="52" cy="22" r="7" fill="#f6c9a0"/><path d="M44 18q8-10 16 0z" fill="#ffd66b"/><path d="M46 30l-6 12M50 30l10 8" stroke="#4aa3c9" stroke-width="6" stroke-linecap="round"/>';
+const art={tree:sv(SKY+TREE),flower:sv(SKY+FLOW),lake:sv(SKY+LAKE),birds:sv(SKY+BIRD),
+ shade:sv(SKY+TREE+'<path d="M0 70q60-10 120 0" stroke="#e9d7a8" stroke-width="6" fill="none"/>'),
+ people:sv(SKY+'<circle cx="34" cy="40" r="8" fill="#f6c9a0"/><rect x="25" y="48" width="18" height="20" rx="8" fill="#ff9fb8"/><circle cx="64" cy="38" r="8" fill="#f1b98a"/><rect x="55" y="46" width="18" height="22" rx="8" fill="#4aa3c9"/><circle cx="92" cy="46" r="6" fill="#f6c9a0"/><rect x="85" y="52" width="14" height="16" rx="6" fill="#ffd66b"/>'),
+ hero:sv('<rect width="120" height="80" fill="#d9f0fa"/><circle cx="100" cy="16" r="9" fill="#ffd66b"/><g class="cloud"><ellipse cx="30" cy="14" rx="14" ry="5" fill="#fff"/><ellipse cx="40" cy="11" rx="8" ry="5" fill="#fff"/></g><path d="M0 52q30-18 60-4t60-6v38H0z" fill="#bfe3b4"/><ellipse cx="86" cy="64" rx="26" ry="8" fill="#8fd0ee"/><g transform="translate(-8 4) scale(.8)">'+TREE+'</g><g transform="translate(6 6) scale(.9)">'+BIKE+'</g>')};
+const CH={
+ explorer:'<circle cx="60" cy="40" r="18" fill="#f6c9a0"/><path d="M40 34q20-24 40 0z" fill="#c98b4a"/><rect x="34" y="54" width="52" height="22" rx="10" fill="#4aa3c9"/><circle cx="53" cy="42" r="2" fill="#333"/><circle cx="67" cy="42" r="2" fill="#333"/><path d="M53 48q7 5 14 0" stroke="#333" stroke-width="2" fill="none"/><rect x="88" y="52" width="14" height="22" rx="5" fill="#ff8f6b"/>',
+ seeker:'<circle cx="60" cy="40" r="18" fill="#f6c9a0"/><path d="M44 30q16-14 32 0" fill="#6b4a35"/><rect x="34" y="54" width="52" height="22" rx="10" fill="#5fb36b"/><path d="M50 42q3 2 6 0M64 42q3 2 6 0M53 49q7 4 14 0" stroke="#333" stroke-width="2" fill="none"/><path d="M82 18q12 2 10 14q-12-2-10-14z" fill="#8fd19e"/>',
+ lover:'<circle cx="60" cy="40" r="18" fill="#f6c9a0"/><path d="M42 34q18-18 36 0z" fill="#8a5a3c"/><rect x="34" y="54" width="52" height="22" rx="10" fill="#ff9fb8"/><circle cx="53" cy="42" r="2" fill="#333"/><circle cx="67" cy="42" r="2" fill="#333"/><path d="M52 48q8 7 16 0" stroke="#333" stroke-width="2" fill="none"/><circle cx="78" cy="26" r="5" fill="#ffd66b"/><circle cx="84" cy="22" r="4" fill="#fff"/><circle cx="88" cy="30" r="4" fill="#c9a7ff"/>'};
+/* ===== Characters and animated park scene ===== */
+const chr=h=>{const g=h==="girl",c=g?"#ff9fb8":"#4aa3c9",p=g?"#8a6fd1":"#6b4a35",hr=g?"#8a5a3c":"#3b2a20";
+return `<g class="body"><rect class="leg" x="4" y="30" width="5" height="13" rx="2" fill="${p}"/><rect class="leg b" x="11" y="30" width="5" height="13" rx="2" fill="${p}"/><rect class="leg b" x="0" y="17" width="4" height="11" rx="2" fill="#f6c9a0"/><rect class="leg" x="16" y="17" width="4" height="11" rx="2" fill="#f6c9a0"/><rect x="2" y="15" width="16" height="17" rx="6" fill="${c}"/>${g?'<path d="M2 28l-2 5h20l-2-5z" fill="#ff9fb8"/>':''}<circle cx="10" cy="8" r="8" fill="#f6c9a0"/><path d="M2 8q0-10 8-10t8 10q-8-5-16 0z" fill="${hr}"/>${g?`<circle cx="1" cy="12" r="3.5" fill="${hr}"/><circle cx="19" cy="12" r="3.5" fill="${hr}"/>`:''}<circle cx="7" cy="9" r="1.1" fill="#333"/><circle cx="13" cy="9" r="1.1" fill="#333"/><path d="M7.5 12q2.5 2.5 5 0" stroke="#333" stroke-width="1" fill="none"/></g>`};
+const hArt=k=>`<svg class="ill" viewBox="0 0 120 80" aria-hidden="true"><rect width="120" height="80" fill="#d9f0fa"/><rect y="64" width="120" height="16" fill="#bfe3b4"/><g class="idle" transform="translate(42 6) scale(1.6)">${chr(k)}</g></svg>`;
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dn=()=>lang==="th"?(S.hero==="boy"?"ต้น":"ใบเตย"):(S.hero==="boy"?"Ben":"Mia");
+const dk=(x,y)=>`<g transform="translate(${x} ${y})"><g class="pad"><ellipse cx="0" cy="0" rx="7" ry="4.5" fill="#ffd66b"/><circle cx="6" cy="-5" r="3.5" fill="#ffd66b"/><path d="M9 -5l4 1.5-4 1z" fill="#ff9a3c"/></g></g>`;
+const rb=(x,y)=>`<g transform="translate(${x} ${y})"><g class="hop"><ellipse cx="0" cy="0" rx="7" ry="5" fill="#fff"/><circle cx="6" cy="-4" r="3.5" fill="#fff"/><ellipse cx="5" cy="-10" rx="1.6" ry="4.5" fill="#fff"/><ellipse cx="8" cy="-10" rx="1.6" ry="4.5" fill="#ffd9e2"/><circle cx="-7" cy="-1" r="2" fill="#f2f2f2"/></g></g>`;
+const sq=(x,y)=>`<g transform="translate(${x} ${y})"><g class="hop"><ellipse cx="0" cy="0" rx="5" ry="3.5" fill="#c98b4a"/><circle cx="5" cy="-3" r="2.8" fill="#c98b4a"/><path d="M-4 -2q-9-2-6-11q3 4 5 6z" fill="#b5733a"/></g></g>`;
+const bee=(x,y)=>`<g transform="translate(${x} ${y})"><g class="buzz"><ellipse cx="0" cy="0" rx="3.5" ry="2.5" fill="#ffd66b"/><path d="M-1 -2.5v5M1.5 -2.5v5" stroke="#333" stroke-width="1"/><ellipse cx="0" cy="-3" rx="2.5" ry="1.5" fill="#fff" opacity=".8"/></g></g>`;
+const bf=(x,y,c)=>`<g transform="translate(${x} ${y})"><g class="flut2"><ellipse cx="-3" cy="0" rx="3.2" ry="2.8" fill="${c}"/><ellipse cx="3" cy="0" rx="3.2" ry="2.8" fill="#ffd66b"/></g></g>`;
+const BASE='<path d="M0 66q60-26 120 0t120 0v70H0z" fill="#cfeac3"/><rect y="80" width="240" height="50" fill="#bfe3b4"/>';
+const PATH='<rect y="106" width="240" height="14" fill="#ecdcae"/>';
+const F=(x,c,dy)=>`<g transform="translate(0 ${dy})">${fl(x,56,c)}</g>`;
+const tr=(cx,k)=>`<g transform="translate(${cx-60*k} ${88-68*k}) scale(${k})">${TREE}</g>`;
+const RIP=d=>`<path class="rip" d="${d}" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+const TILES={
+ def:`${BASE}<ellipse cx="175" cy="94" rx="30" ry="8" fill="#8fd0ee"/>${RIP("M155 94q6-3 12 0M182 96q6-3 12 0")}${tr(30,.9)}${tr(105,.9)}${PATH}${F(60,"#fff",34)}${F(135,"#ff9fb8",34)}${F(215,"#c9a7ff",34)}${dk(172,95)}${rb(75,116)}${bf(130,70,"#ff9fb8")}`,
+ lake:`${BASE}<rect y="78" width="240" height="26" fill="#8fd0ee"/>${RIP("M20 88q8-4 16 0M90 96q8-4 16 0M150 86q8-4 16 0M200 98q8-4 16 0")}<ellipse cx="70" cy="92" rx="7" ry="3" fill="#5fb36b"/><ellipse cx="170" cy="84" rx="7" ry="3" fill="#5fb36b"/><path d="M12 82q-3-16 3-26M18 82q3-14 9-22M215 82q-3-16 3-26M221 82q3-14 9-22" stroke="#4e9f5b" stroke-width="3" fill="none" stroke-linecap="round"/>${dk(45,90)}${dk(120,96)}${dk(190,90)}${PATH}${F(60,"#fff",34)}${F(150,"#ffb36b",34)}${bf(100,66,"#c9a7ff")}`,
+ tree:`${BASE}${tr(35,1.15)}${tr(105,1.15)}${tr(175,1.15)}<ellipse cx="70" cy="92" rx="14" ry="8" fill="#4e9f5b"/><ellipse cx="140" cy="92" rx="14" ry="8" fill="#5fb36b"/><ellipse cx="210" cy="92" rx="14" ry="8" fill="#4e9f5b"/>${PATH}${sq(60,108)}${sq(190,112)}${rb(130,116)}`,
+ flower:`${BASE}${[20,45,70,95,120,145,170,195,220].map((x,i)=>F(x,["#ff9fb8","#fff","#c9a7ff","#ffb36b"][i%4],18+(i%2)*10)).join("")}${PATH}${[32,82,132,182,207].map((x,i)=>F(x,["#fff","#ff9fb8","#ffb36b","#c9a7ff","#ff9fb8"][i],36)).join("")}${bf(50,66,"#ff9fb8")}${bf(160,60,"#c9a7ff")}${bee(100,84)}${bee(200,80)}${rb(125,116)}`};
+const pp=(x,y,c)=>`<g transform="translate(${x} ${y})"><g class="pad"><circle cy="-14" r="4" fill="#f6c9a0"/><rect x="-4" y="-10" width="8" height="12" rx="4" fill="${c}"/></g></g>`;
+const dg=(x,y)=>`<g transform="translate(${x} ${y})"><g class="pad"><ellipse rx="7" ry="4" fill="#c98b4a"/><circle cx="7" cy="-3" r="3.2" fill="#c98b4a"/><ellipse cx="9" cy="-6" rx="1.5" ry="2.5" fill="#8a5a3c"/><path d="M-7 -1q-5-5-3-8" stroke="#c98b4a" stroke-width="2" fill="none"/></g></g>`;
+const bd=(x,y,c)=>`<g transform="translate(${x} ${y})"><g class="bob"><ellipse rx="5" ry="3.5" fill="${c}"/><circle cx="4" cy="-3" r="2.5" fill="${c}"/><path d="M6 -3l3 1-3 1z" fill="#ff9a3c"/></g></g>`;
+TILES.people=`${BASE}${tr(40,.9)}${tr(200,.9)}<rect x="95" y="88" width="34" height="5" rx="2" fill="#a0724a"/><rect x="98" y="93" width="3" height="8" fill="#7a5436"/><rect x="123" y="93" width="3" height="8" fill="#7a5436"/>${PATH}${pp(112,87,"#ffd66b")}${pp(70,106,"#ff9fb8")}${pp(155,106,"#4aa3c9")}${dg(185,114)}${rb(20,116)}`;
+TILES.birds=`${BASE}${tr(35,1)}${tr(120,1)}${tr(200,1)}${bd(35,31,"#4aa3c9")}${bd(122,31,"#ff8f6b")}${bd(205,32,"#ffd66b")}${bd(80,100,"#4aa3c9")}${PATH}${F(70,"#fff",34)}${bf(80,66,"#ff9fb8")}${bf(170,62,"#c9a7ff")}${bf(40,74,"#ffb36b")}`;
+const tile=(o,th)=>`<g transform="translate(${o} 0)">${TILES[th]||TILES.def}</g>`;
+const bird=(y,d)=>`<g class="fly" style="animation-delay:${d}s"><g class="bob"><path d="M0 ${y}q5-6 10 0q5-6 10 0" stroke="#3b5566" stroke-width="2" fill="none" stroke-linecap="round"/></g></g>`;
+const live=(h,w,th)=>`<svg viewBox="0 0 240 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect width="240" height="130" fill="#d9f0fa"/><circle cx="208" cy="22" r="11" fill="#ffd66b"/><g class="cloud"><ellipse cx="40" cy="20" rx="20" ry="6" fill="#fff"/><ellipse cx="54" cy="16" rx="11" ry="6" fill="#fff"/></g><g class="cloud" style="animation-delay:-4s"><ellipse cx="140" cy="32" rx="16" ry="5" fill="#fff"/></g>${bird(26,0)}${bird(44,-6)}${bird(36,-11)}<g class="${w?"scroll":""}">${tile(0,th)}${tile(240,th)}</g><g class="${w?"walk":"idle"}">${h?`<g transform="translate(105 49) scale(1.5)">${chr(h)}</g><rect x="88" y="33" width="64" height="12" rx="6" fill="#fffaf0" opacity=".92"/><text x="120" y="42" text-anchor="middle" font-size="8" font-weight="800" fill="#22402b">${esc(S.name||dn())}</text>`:`<g transform="translate(80 49) scale(1.5)">${chr("boy")}</g><g transform="translate(125 49) scale(1.5)">${chr("girl")}</g>`}</g></svg>`;
+const TH_CAP={lake:{en:"Walking along the lakeside…",th:"กำลังเดินเลียบริมทะเลสาบ…"},tree:{en:"Walking under the big trees…",th:"กำลังเดินใต้ต้นไม้ใหญ่…"},flower:{en:"Walking through the flower garden…",th:"กำลังเดินผ่านสวนดอกไม้…"},people:{en:"Walking past the people in the park…",th:"กำลังเดินผ่านผู้คนในสวน…"},birds:{en:"Walking among the birds and butterflies…",th:"กำลังเดินท่ามกลางนกและผีเสื้อ…"}};
+const WK={place:{en:"Walking into the park…",th:"กำลังเดินเข้าสวน…"},w1:{en:"Walking to the bicycle stand…",th:"กำลังเดินไปที่จุดให้เช่าจักรยาน…"},nature:{en:"Walking along the park path…",th:"กำลังเดินไปตามทางเดินในสวน…"},result:{en:"Almost at the end of the day…",th:"ใกล้จบวันแล้ว…"}};
+/* ===== Content (English / Thai) ===== */
+const U={
+ title:{en:"A Day in the Park",th:"วันหนึ่งในสวนสาธารณะ"},
+ sub:{en:"Discover the Beauty of Nature Through Everyday Life.",th:"ค้นพบความงามของธรรมชาติผ่านชีวิตประจำวัน"},
+ intro:{en:"Welcome to the park! Every day, people come here to enjoy nature, relax, and spend time with others. But what is it like to work here every day?",th:"ยินดีต้อนรับสู่สวนสาธารณะ! ทุกวันมีผู้คนมาที่นี่เพื่อเพลิดเพลินกับธรรมชาติ พักผ่อน และใช้เวลากับคนอื่น ๆ แล้วการทำงานที่นี่ทุกวันเป็นอย่างไรนะ?"},
+ mission:{en:"Let's discover the beauty of nature through one day in the park!",th:"มาค้นพบความงามของธรรมชาติผ่านหนึ่งวันในสวนสาธารณะกันเถอะ!"},
+ start:{en:"START GAME",th:"เริ่มเล่น"},next:{en:"Next",th:"ต่อไป"},see:{en:"See my result",th:"ดูผลของฉัน"},
+ again:{en:"PLAY AGAIN",th:"เล่นอีกครั้ง"},home:{en:"BACK TO HOME",th:"กลับหน้าหลัก"},
+ voices:{en:"Voices from the Park",th:"เสียงจากสวนสาธารณะ"},
+ voicesIntro:{en:"Real stories from the people who work in the park will appear here. The boxes below are placeholders.",th:"เรื่องราวจริงจากคนที่ทำงานในสวนจะแสดงที่นี่ กล่องด้านล่างเป็นเพียงตัวอย่างชั่วคราว"},
+ job:{en:"Occupation",th:"อาชีพ"},quote:{en:"Interview quote",th:"คำพูดจากการสัมภาษณ์"},rel:{en:"Relationship with nature",th:"ความสัมพันธ์กับธรรมชาติ"},
+ ph:{en:"PLACEHOLDER",th:"ตัวอย่างชั่วคราว"},
+ final:{en:"Nature is more than a beautiful view. It is part of people's everyday lives.",th:"ธรรมชาติไม่ใช่เพียงทิวทัศน์ที่สวยงาม แต่เป็นส่วนหนึ่งของชีวิตประจำวันของผู้คน"},
+ step:{en:"Step",th:"ขั้นที่"},choose:{en:"Choose your character",th:"เลือกตัวละครของคุณ"},boy:{en:"Boy",th:"เด็กชาย"},girl:{en:"Girl",th:"เด็กหญิง"},go:{en:"Walk into the park",th:"เดินเข้าสวน"},skip:{en:"Skip",th:"ข้าม"},nameQ:{en:"Give your character a name",th:"ตั้งชื่อให้ตัวละครของคุณ"},nameHint:{en:"Type any nickname (up to 10 letters). It is not saved or sent anywhere.",th:"พิมพ์ชื่อเล่นอะไรก็ได้ (ไม่เกิน 10 ตัวอักษร) ชื่อนี้ไม่ถูกบันทึกหรือส่งไปที่ไหน"},of:{en:"of",th:"จาก"},lang:{en:"ไทย",th:"English"},
+ pick:{en:"Tap one choice.",th:"แตะเลือกหนึ่งข้อ"},you:{en:"Your result:",th:"ผลของคุณ:"}};
+const Q={
+ place:{k:"place",step:2,q:{en:"If you had a short break from work, where would you like to spend your time?",th:"ถ้าคุณมีเวลาพักสั้น ๆ จากการทำงาน คุณอยากไปใช้เวลาที่ไหน?"},opts:[
+  {t:"explorer",a:"lake",l:{en:"The Lakeside",th:"ริมทะเลสาบ"},f:{en:"A peaceful place with water and beautiful scenery. The lake reflects the sky, and many visitors stop here just to breathe.",th:"สถานที่สงบที่มีผืนน้ำและทิวทัศน์งดงาม ทะเลสาบสะท้อนท้องฟ้า และผู้มาเยือนหลายคนแวะมาหายใจให้เต็มปอดที่นี่"}},
+  {t:"seeker",a:"tree",l:{en:"Under the Big Tree",th:"ใต้ต้นไม้ใหญ่"},f:{en:"A shady and relaxing place. A big tree gives cool air, soft light, and a spot to rest on a hot day.",th:"สถานที่ร่มรื่นและผ่อนคลาย ต้นไม้ใหญ่ให้ความเย็น แสงนุ่ม ๆ และที่พักในวันที่อากาศร้อน"}},
+  {t:"lover",a:"flower",l:{en:"The Flower Garden",th:"สวนดอกไม้"},f:{en:"A colorful place full of flowers and small insects. People love to stop, look, and take photos together.",th:"สถานที่เต็มไปด้วยสีสันของดอกไม้และแมลงตัวเล็ก ๆ ผู้คนชอบแวะดูและถ่ายรูปด้วยกัน"}}]},
+ w1:{k:"w1",step:3,q:{en:"A visitor wants to rent a bicycle on a sunny afternoon. What would you recommend?",th:"ผู้มาเยือนอยากเช่าจักรยานในบ่ายที่แดดจ้า คุณจะแนะนำอะไร?"},opts:[
+  {t:"seeker",a:"shade",l:{en:"A. A shaded route with many trees",th:"ก. เส้นทางร่มรื่นที่มีต้นไม้มากมาย"},f:{en:"Great idea! The visitor stays cool and enjoys the leaves above. Trees make the ride more comfortable.",th:"ความคิดดีมาก! ผู้มาเยือนจะรู้สึกเย็นสบายและได้ชมใบไม้เหนือศีรษะ ต้นไม้ทำให้การปั่นสบายขึ้น"}},
+  {t:"explorer",a:"lake",l:{en:"B. A route with beautiful lake views",th:"ข. เส้นทางที่มีวิวทะเลสาบสวยงาม"},f:{en:"Lovely choice! The visitor rides beside sparkling water and may find a new favorite spot.",th:"เลือกได้น่ารักมาก! ผู้มาเยือนจะปั่นเลียบผืนน้ำระยิบระยับ และอาจพบมุมโปรดแห่งใหม่"}},
+  {t:"lover",a:"flower",l:{en:"C. A route through the flower garden",th:"ค. เส้นทางผ่านสวนดอกไม้"},f:{en:"What a cheerful idea! Colors and scents make the ride a happy memory.",th:"เป็นความคิดที่สดใสมาก! สีสันและกลิ่นหอมทำให้การปั่นกลายเป็นความทรงจำที่มีความสุข"}}]},
+ w2:{k:"w2",step:3,q:{en:"After working for several hours, what would make your working day more enjoyable?",th:"หลังทำงานมาหลายชั่วโมง อะไรจะทำให้วันทำงานของคุณสนุกขึ้น?"},opts:[
+  {t:"seeker",a:"shade",l:{en:"A. Enjoying the cool shade of trees",th:"ก. ได้นั่งในร่มเงาเย็น ๆ ของต้นไม้"},f:{en:"Nature can make everyday workplaces more pleasant. Shade gives a little rest in the middle of a busy day.",th:"ธรรมชาติช่วยให้ที่ทำงานในแต่ละวันน่าอยู่ขึ้น ร่มเงาช่วยให้พักได้สักครู่กลางวันที่วุ่นวาย"}},
+  {t:"lover",a:"people",l:{en:"B. Seeing people enjoying the park",th:"ข. ได้เห็นผู้คนมีความสุขในสวน"},f:{en:"A park is also a place for people. Seeing smiles can make work feel meaningful.",th:"สวนสาธารณะเป็นที่ของผู้คนด้วย การได้เห็นรอยยิ้มทำให้งานรู้สึกมีความหมาย"}},
+  {t:"explorer",a:"birds",l:{en:"C. Listening to birds and natural sounds",th:"ค. ได้ฟังเสียงนกและเสียงธรรมชาติ"},f:{en:"Natural sounds can calm the mind. Even a short moment of birdsong can make a workday lighter.",th:"เสียงธรรมชาติช่วยให้ใจสงบ แค่ฟังเสียงนกร้องสั้น ๆ ก็ทำให้วันทำงานเบาขึ้น"}}]},
+ nature:{k:"nature",step:4,q:{en:"What makes a public park beautiful to you?",th:"อะไรทำให้สวนสาธารณะสวยงามในความรู้สึกของคุณ?"},opts:[
+  {t:"seeker",a:"tree",l:{en:"Green trees",th:"ต้นไม้เขียวขจี"},f:{en:"Trees give shade, fresh air, and a home for animals. They make a park feel alive.",th:"ต้นไม้ให้ร่มเงา อากาศสดชื่น และเป็นบ้านของสัตว์ ทำให้สวนมีชีวิตชีวา"}},
+  {t:"lover",a:"flower",l:{en:"Beautiful flowers",th:"ดอกไม้สวยงาม"},f:{en:"Flowers bring color and joy. They invite people to slow down and smile together.",th:"ดอกไม้นำสีสันและความสุข ชวนให้ผู้คนเดินช้าลงและยิ้มด้วยกัน"}},
+  {t:"explorer",a:"birds",l:{en:"Birds and butterflies",th:"นกและผีเสื้อ"},f:{en:"Small animals show that the park is a living place. Their songs and movement make every visit new.",th:"สัตว์ตัวเล็ก ๆ บอกเราว่าสวนเป็นที่ที่มีชีวิต เสียงและการเคลื่อนไหวของพวกมันทำให้ทุกการมาเยือนไม่ซ้ำกัน"}},
+  {t:"seeker",a:"lake",l:{en:"A peaceful lake",th:"ทะเลสาบที่สงบ"},f:{en:"Water calms the mind and cools the air. A lake gives people a quiet place to rest.",th:"น้ำช่วยให้ใจสงบและอากาศเย็นลง ทะเลสาบเป็นที่พักผ่อนอย่างเงียบสงบของผู้คน"}}]}};
+const R={
+ explorer:{n:{en:"Nature Explorer",th:"นักสำรวจธรรมชาติ"},d:{en:"You love exploring natural scenery and discovering new places.",th:"คุณชอบสำรวจทิวทัศน์ธรรมชาติและค้นพบสถานที่ใหม่ ๆ"},q:{en:"You find beauty in every corner of nature.",th:"คุณพบความงามในทุกมุมของธรรมชาติ"}},
+ seeker:{n:{en:"Peaceful Seeker",th:"ผู้แสวงหาความสงบ"},d:{en:"You enjoy calm places, trees, and relaxing spaces.",th:"คุณชอบสถานที่สงบ ต้นไม้ และพื้นที่ผ่อนคลาย"},q:{en:"You appreciate nature as a place to relax and recharge.",th:"คุณเห็นคุณค่าของธรรมชาติในฐานะที่พักผ่อนและเติมพลัง"}},
+ lover:{n:{en:"Park Lover",th:"คนรักสวนสาธารณะ"},d:{en:"You enjoy the atmosphere, activities, and people in public parks.",th:"คุณชอบบรรยากาศ กิจกรรม และผู้คนในสวนสาธารณะ"},q:{en:"You understand how nature brings people together.",th:"คุณเข้าใจว่าธรรมชาติช่วยให้ผู้คนมาอยู่ร่วมกัน"}}};
+/* ===== Game engine ===== */
+const ORDER=["home","choose","name","place","w1","w2","nature","result"];
+const PROG={home:1,choose:1,name:1,place:2,w1:3,w2:3,nature:4,result:5};
+let lang="en",S,app=document.getElementById("app");
+function reset(){S={s:"home",ans:{},hero:null,tm:0}}
+function finish(){clearTimeout(S.tm);S.s=S.to;render();window.scrollTo(0,0)}
+const t=o=>o[lang];
+function result(){
+ const keys=["place","w1","w2","nature"],c={explorer:0,seeker:0,lover:0},seq=[];
+ keys.forEach(k=>{const o=Q[k].opts[S.ans[k]];if(o){c[o.t]++;seq.push(o.t)}});
+ const max=Math.max(...Object.values(c));
+ for(let i=seq.length-1;i>=0;i--)if(c[seq[i]]===max)return seq[i];
+ return "explorer";}
+function bar(){
+ const p=PROG[S.s==="walk"?S.to:S.s]||0;
+ const dots=[1,2,3,4,5].map(n=>`<i class="${n<=p?'on':''} ${n===p?'now':''}"></i>`).join("");
+ return `<div class="bar"><div class="dots" role="img" aria-label="${t(U.step)} ${p} ${t(U.of)} 5">${p?dots:""}</div><button class="lang" data-a="lang" aria-label="Switch language: ${t(U.lang)}">🌐 ${t(U.lang)}</button></div>`;}
+function question(q){
+ const sel=S.ans[q.k],o=q.opts[sel];
+ const grid=q.opts.map((x,i)=>{const pr=sel===i;
+  return `<button class="opt ${q.k==='w1'||q.k==='w2'?'':''}" data-a="opt" data-i="${i}" aria-pressed="${pr}">${art[x.a]}<b>${t(x.l)}</b></button>`}).join("");
+ const last=S.s==="nature";
+ return `<div class="card"><h2 tabindex="-1">${t(q.q)}</h2><p class="muted">${t(U.pick)}</p><div class="grid">${grid}</div>
+ <div aria-live="polite">${o?`<div class="fb">${t(o.f)}</div><button class="btn" data-a="next">${last?t(U.see):t(U.next)}</button>`:""}</div></div>`;}
+function screen(){
+ if(S.s==="home")return `<div class="card"><div class="scene" aria-hidden="true">${live(null,false)}</div><h1 tabindex="-1">${t(U.title)}</h1><p class="muted">${t(U.sub)}</p><p>${t(U.intro)}</p><p><b>${t(U.mission)}</b></p>
+  <button class="btn" data-a="next">${t(U.start)}</button></div>`;
+ if(S.s==="choose"){const h=S.hero;return `<div class="card"><h2 tabindex="-1">${t(U.choose)}</h2><p class="muted">${t(U.pick)}</p><div class="grid chars">`+["boy","girl"].map(k=>`<button class="opt" data-a="hero" data-h="${k}" aria-pressed="${h===k}">${hArt(k)}<b>${t(U[k])}</b></button>`).join("")+`</div><div aria-live="polite">${h?`<button class="btn" data-a="next">${t(U.next)}</button>`:""}</div></div>`}
+ if(S.s==="name")return `<div class="scene" aria-hidden="true">${live(S.hero||"girl",false)}</div><div class="card"><h2 tabindex="-1">${t(U.nameQ)}</h2><label class="muted" for="nm">${t(U.nameHint)}</label><input id="nm" class="inp" maxlength="10" value="${esc(S.name||"")}" placeholder="${esc(dn())}" autocomplete="off"><button class="btn" data-a="next">${t(U.go)}</button></div>`;
+ if(S.s==="walk")return `<div class="card"><div class="scene" aria-hidden="true">${live(S.hero||"girl",true,S.th)}</div><h2 tabindex="-1" aria-live="polite">${t(S.th&&S.to!=="place"?TH_CAP[S.th]:WK[S.to])}</h2><button class="btn alt" data-a="skip">${t(U.skip)}</button></div>`;
+  if(S.s==="result"){const k=result(),r=R[k];
+  return `<div class="scene" aria-hidden="true">${live(S.hero||"girl",false,S.th)}</div><div class="card"><p class="muted">${t(U.you)}</p>${sv(SKY+CH[k])}<h1 tabindex="-1">${t(r.n)}</h1><p>${t(r.d)}</p><p><b>${t(r.q)}</b></p><p>${t(U.final)}</p>
+  <button class="btn" data-a="again">${t(U.again)}</button><button class="btn alt" data-a="home">${t(U.home)}</button></div>`;}
+ return `<div class="scene" aria-hidden="true">${live(S.hero||"girl",false,S.th)}</div>`+question(Q[S.s]);}
+function render(focusSel){
+ document.documentElement.lang=lang;
+ app.innerHTML=bar()+screen();
+ const el=focusSel?app.querySelector('.opt[aria-pressed="true"]'):app.querySelector("h1,h2");
+ if(el)el.focus({preventScroll:!!focusSel});
+ clearTimeout(S.tm);if(S.s==="walk")S.tm=setTimeout(finish,matchMedia("(prefers-reduced-motion: reduce)").matches?900:3200);}
+app.addEventListener("click",e=>{
+ const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a;
+ if(a==="lang"){lang=lang==="en"?"th":"en";render(S.s!=="home"&&S.s!=="result"&&S.s!=="voices"&&S.ans[S.s]!=null);return}
+ if(a==="opt"){S.ans[S.s]=+b.dataset.i;{const a2=Q[S.s].opts[S.ans[S.s]].a;S.th=a2==="shade"?"tree":a2}render(true);return}
+ if(a==="next"){const n=ORDER[ORDER.indexOf(S.s)+1];if(S.s==="home"||n==="name"){S.s=n}else{S.to=n;S.s="walk"}render();window.scrollTo(0,0);return}
+ if(a==="hero"){S.hero=b.dataset.h;render(true);return}
+ if(a==="skip"){finish();return}
+ if(a==="again"){reset();S.s="choose";render();window.scrollTo(0,0);return}
+ if(a==="home"){reset();render();window.scrollTo(0,0);return}
+ });
+app.addEventListener("input",e=>{if(e.target.id==="nm"){S.name=e.target.value.trim();const x=app.querySelector(".scene text");if(x)x.textContent=S.name||dn()}});
+app.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="nm"){const b=app.querySelector("[data-a=next]");if(b)b.click()}});
+reset();render();
+</script>
+</body>
+</html>
